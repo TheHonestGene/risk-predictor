@@ -65,5 +65,5 @@ def main():
 
 
 def run(args):
-    print 'RUN RISK PREDICTION'
+    print 'RUN2 RISK PREDICTION'
 
