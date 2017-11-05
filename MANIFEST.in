@@ -1,2 +1,4 @@
-include README.rst
-include CHANGELOG
+include README.rst CHANGELOG LICENSE
+recursive-include docs *
+recursive-include tests *
+global-exclude *.py[cdo] __pycache__ *.so *.pyd

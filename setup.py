@@ -32,7 +32,18 @@ setup(
     ],
     keywords='Risk Prediction',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    setup_requires=['pytest-runner'],
+    tests_require=[
+        "pytest",
+        "pytest-cov",
+        "pytest-pep8",
+        "coverage"
+    ],
     install_requires=[
+        "numpy",
+        "scipy",
+        "h5py",
+        "matplotlib >= 1.4.3"
     ],
     entry_points={
         'console_scripts': [
