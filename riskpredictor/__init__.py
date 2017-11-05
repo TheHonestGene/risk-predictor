@@ -10,6 +10,7 @@ import os
 import sys
 import argparse
 import logging, logging.config
+from riskpredictor.core import predictor as pred
 
 LOGGING = {
     'version': 1,
@@ -44,8 +45,11 @@ log = logging.getLogger()
 def get_parser():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(title='subcommands',description='Choose a command to run',help='Following commands are supported')                                                                  
-    analysis_parser = subparsers.add_parser('run',help='Run a Risk orediction')   
-    analysis_parser.set_defaults(func=run)                           
+    analysis_parser = subparsers.add_parser('run',help='Run a Risk orediction')
+    analysis_parser.add_argument(dest="genotype_file",metavar="genotype-file",help="The imputed genotype file (HDF5 format)")
+    analysis_parser.add_argument(dest="trait_folder",metavar="trait-folder",help="Folder that contains the trait files")
+    analysis_parser.add_argument('-s','--sex',dest="sex", help="Optional sex (Default:None). Works only for height",choices=['male','female'])
+    analysis_parser.set_defaults(func=run)
     return parser
 
 
@@ -53,6 +57,9 @@ def main():
     # Process arguments
     parser = get_parser()
     args = vars(parser.parse_args())
+    if 'func' not in args:
+        parser.print_help()
+        return 0
     try:
         args['func'](args)
         return 0
@@ -64,5 +71,8 @@ def main():
         return 2
 
 def run(args):
-    print('RUN2 RISK PREDICTION')
-
+    sex = args['sex']
+    if sex is not None:
+        sex = 1 if args['sex'] == 'male' else 0
+    score = pred.predict(args['genotype_file'],args['trait_folder'],sex=sex)
+    log.info('Prediction score: %s' % score)
