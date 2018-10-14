@@ -43,8 +43,12 @@ setup(
         "numpy",
         "scipy",
         "h5py",
-        "matplotlib >= 1.4.3"
+        "plinkio",
+        "pandas",
+        "imputor==0.0.1",
+        "matplotlib >= 1.4.3",
     ],
+    dependency_links=['https://github.com/TheHonestGene/imputor/tarball/master#egg=imputor-0.0.1'],
     entry_points={
         'console_scripts': [
             'riskpredictor=riskpredictor:main'
